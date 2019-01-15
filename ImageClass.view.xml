@@ -1,0 +1,49 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:table="sap.ui.table" xmlns:unified="sap.ui.unified" xmlns="sap.m" xmlns:micro="sap.suite.ui.microchart" xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" controllerName="sapui5ml.controller.ImageClass" displayBlock="true" viewName="ImageClass" id="class">
+  <App id="img">
+    <pages>
+      <Page title="Image Classification" id="img_class">
+        <content>
+          <Carousel pages="{img_class>/predictions}" width="100%" visible="{= ${img_class>/visible} === true}">
+            <pages>
+              <ScrollContainer height="100%" width="100%" horizontal="true" vertical="true" focusable="true">
+                <VBox alignContent="Center" alignItems="Center">
+                  <Image tooltip="canvas" class="sapUiLargeMargin" src="{img_class>contentUrl}"/>
+                  <Label text="File name: {img_class>name}" class="sapUiLargeMargin"/>
+                  <table:Table rows="{img_class>results}" enableBusyIndicator="true" selectionMode="Single" visibleRowCount="5">
+                    <table:columns>
+                      <table:Column sortProperty="label" filterProperty="label">
+                        <Label text="Label"/>
+                        <table:template>
+                          <Link text="{img_class>label}" href="https://www.google.com/search?q={img_class>label}&amp;newwindow=1&amp;tbm=isch" target="search"/>
+                        </table:template>
+                      </table:Column>
+                      <table:Column sortProperty="score" filterProperty="score">
+                        <Label text="Score"/>
+                        <table:template>
+                          <micro:RadialMicroChart size="XS" fraction="{img_class>score}" total="1" class="sapUiSmallMargin"/>
+                        </table:template>
+                      </table:Column>
+                    </table:columns>
+                  </table:Table>
+                </VBox>
+                <content/>
+              </ScrollContainer>
+            </pages>
+          </Carousel>
+        </content>
+        <footer>
+          <Toolbar width="100%">
+            <content>
+              <unified:FileUploader buttonOnly="true" buttonText="Upload Picture" sameFilenameAllowed="true" multiple="false" fileType="{img_class>/fileType}" mimeType="{img_class>/mimeType}" typeMissmatch="fileTypeMissmatch" change="fileUploaderChange" uploadComplete="fileUploaderComplete" name="files" uploadUrl="{img_class>/url}" useMultipart="true" sendXHR="true" uploadOnChange="true">
+                <unified:headerParameters>
+                  <unified:FileUploaderParameter name="APIKey" value="{img_class>/APIKey}"/>
+                  <unified:FileUploaderParameter name="Accept" value="{img_class>/accept}"/>
+                </unified:headerParameters>
+              </unified:FileUploader>
+            </content>
+          </Toolbar>
+        </footer>
+      </Page>
+    </pages>
+  </App>
+</mvc:View>
